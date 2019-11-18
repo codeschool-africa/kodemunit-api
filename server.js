@@ -6,6 +6,7 @@ const passport = require("passport");
 const dotenv = require("dotenv");
 
 const users = require("./routes/api/users");
+const home = require("./routes/api/index")
 
 dotenv.config();
 
@@ -38,6 +39,7 @@ app.use(passport.initialize());
 require("./config/passport")(passport);
 // Routes
 app.use("/api/users", users);
+app.use("/",home)
 
 let port = process.env.PORT;
 if (port == null || port == "") {
