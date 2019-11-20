@@ -19,19 +19,13 @@ app.use(
 app.use(bodyParser.json());
 
 // Connect to MongoDB
-const MongoClient = require("mongodb").MongoClient;
-const uri =
-  "mongodb+srv://Justine:lim123@cluster0-stbf3.mongodb.net/test?retryWrites=true&w=majority";
-const client = new MongoClient(uri, {
-  useNewUrlParser: true,
-  useUnifiedTopology: true
-});
-
-client.connect(err => {
-  const collection = client.db("test").collection("devices");
-  // perform actions on the collection object
-  client.close();
-});
+mongoose
+  .connect(process.env.DB_CONNECT, {
+    useNewUrlParser: true,
+    useUnifiedTopology: true
+  })
+  .then(() => console.log("Database connected"))
+  .catch(err => console.log(`Error: ${err}`));
 
 // Passport middleware
 app.use(passport.initialize());
