@@ -1,8 +1,8 @@
 const express = require("express");
 const router = express.Router();
  
-router.get("/", (req, res, next) => {
-    res.send("Welcome Home")
-})
+router.get('/', function (req, res) {
+    res.send('Welcome To Kodemunit-API')
+});
 
 module.exports = router;

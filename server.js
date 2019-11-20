@@ -4,6 +4,7 @@ const bodyParser = require("body-parser");
 const app = express();
 const passport = require("passport");
 const dotenv = require("dotenv");
+app.set("view engine", "ejs");
 
 const users = require("./routes/api/users");
 const home = require("./routes/api/index")
@@ -31,8 +32,11 @@ mongoose
 app.use(passport.initialize());
 // Passport config
 require("./config/passport")(passport);
-// Routes
 
+//setting templating engine
+
+
+// Routes
 app.use("/api/users", users);
 app.use("/", home)
 
