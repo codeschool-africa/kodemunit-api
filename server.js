@@ -6,10 +6,20 @@ const passport = require("passport");
 const dotenv = require("dotenv");
 app.set("view engine", "ejs");
 
-const users = require("./routes/api/users");
+const login = require("./routes/api/users /login");
+const register = require("./routes/api/users /register");
 const home = require("./routes/api/index")
 
 dotenv.config();
+
+//CORS error 
+app.use(function (req, res, next) {
+  res.setHeader('Access-Control-Allow-Origin', '*');
+  res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE');
+  res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
+  res.setHeader('Access-Control-Allow-Credentials', true);
+  next();
+});
 
 // Bodyparser middleware
 app.use(
@@ -37,7 +47,8 @@ require("./config/passport")(passport);
 
 
 // Routes
-app.use("/api/users", users);
+app.use("/api/users/login", login);
+app.use("/api/users/register", register);
 app.use("/", home)
 
 app.use("*",home)
