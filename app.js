@@ -1,6 +1,20 @@
 const express = require('express');
 const bodyParser = require('body-parser');
+const mongoose = require('mongoose');
+const dotenv = require("dotenv");
+
 const app = express();
+
+dotenv.config();
+mongoose.connect(process.env.DB_CONNECT, { useNewUrlParser: true, useUnifiedTopology: true})
+    .then(() => {
+        console.log('Successfully connected to MongoDB Atlas!');
+    })
+    .catch((error) => {
+        console.log('Unable to connect to MongoDB Atlas!');
+        console.error(error);
+    });
+
 app.use(bodyParser.json());
 
 //solving corse errors 
