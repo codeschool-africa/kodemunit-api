@@ -32,19 +32,18 @@ app.post('/api/student', (req, res, next) => {
         second_name: req.body.second_name,
         date_of_birth: req.body.date_of_birth,
         mobile: req.body.mobile,
-        email: req.body.email,
-        studentId: req.body.studentId
+        email: req.body.email
     });
     student.save().then(
         () => {
             res.status(201).json({
-                message: 'Post saved successfully!'
+                message: 'Student saved successfully!'
             });
         }
     ).catch(
         (error) => {
             res.status(400).json({
-                error: error
+                error: error.errmsg
             });
         }
     );
@@ -59,7 +58,7 @@ app.get('/api/student', (req, res, next) => {
     ).catch(
         (error) => {
             res.status(400).json({
-                error: error
+                error: error.errmsg
             });
         }
     );
@@ -76,7 +75,7 @@ app.get('/api/student/:id', (req, res, next) => {
     ).catch(
         (error) => {
             res.status(404).json({
-                error: error
+                error: error.errmsg
             });
         }
     );
@@ -96,30 +95,30 @@ app.put('/api/student/:id', (req, res, next) => {
     Student.updateOne({ _id: req.params.id }, student).then(
         () => {
             res.status(201).json({
-                message: 'Thing updated successfully!'
+                message: 'Updated successfully!'
             });
         }
     ).catch(
         (error) => {
             res.status(400).json({
-                error: error
+                error: error.errmsg
             });
         }
     );
 });
 
 //Deleting one student
-app.delete('/api/stuff/:id', (req, res, next) => {
+app.delete('/api/student/:id', (req, res, next) => {
     Student.deleteOne({ _id: req.params.id }).then(
         () => {
             res.status(200).json({
-                message: 'Deleted!'
+                message: 'Student Deleted!'
             });
         }
     ).catch(
         (error) => {
             res.status(400).json({
-                error: error
+                error: error.errmsg
             });
         }
     );
