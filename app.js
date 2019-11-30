@@ -2,7 +2,7 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
 const dotenv = require("dotenv");
-
+const Student = require('./models/student')
 const app = express();
 
 dotenv.config();
@@ -25,34 +25,61 @@ app.use((req, res, next) => {
     next();
 });
 
+//sending student information to the database
 app.post('/api/student', (req, res, next) => {
-    console.log(req.body);
-    res.status(201).json({
-        message: 'Thing created successfully!'
+    const student = new Student({
+        first_name: req.body.first_name,
+        second_name: req.body.second_name,
+        date_of_birth: req.body.date_of_birth,
+        mobile: req.body.mobile,
+        email: req.body.email,
+        studentId: req.body.studentId
     });
+    student.save().then(
+        () => {
+            res.status(201).json({
+                message: 'Post saved successfully!'
+            });
+        }
+    ).catch(
+        (error) => {
+            res.status(400).json({
+                error: error
+            });
+        }
+    );
 });
 
-
-app.use('/api/student', (req, res, next) => {
-    const stuff = [
-        {
-            _id:1,
-            first_name: "justine",
-            second_name: "Peterson",
-            date_of_birth: 1/2/1993,
-            mobile: 0987654321,
-            email: "justine@peterson.com"
-        },
-        {
-            _id: 2,
-            first_name: "Peterson",
-            second_name: "Lim",
-            date_of_birth: 1 / 2 / 1993,
-            mobile: 0987654321,
-            email: "justine@peterson.com"
+//getting all the students details
+app.get('/api/student', (req, res, next) => {
+    Student.find().then(
+        (students) => {
+            res.status(200).json(students);
         }
-    ];
-    res.status(200).json(stuff);
+    ).catch(
+        (error) => {
+            res.status(400).json({
+                error: error
+            });
+        }
+    );
+});
+
+//getting a single students details
+app.get('/api/student/:id', (req, res, next) => {
+    Student.findOne({
+        _id: req.params.id
+    }).then(
+        (student) => {
+            res.status(200).json(student);
+        }
+    ).catch(
+        (error) => {
+            res.status(404).json({
+                error: error
+            });
+        }
+    );
 });
 
 module.exports = app;
