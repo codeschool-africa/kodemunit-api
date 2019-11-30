@@ -82,4 +82,47 @@ app.get('/api/student/:id', (req, res, next) => {
     );
 });
 
+
+//Update student information 
+app.put('/api/student/:id', (req, res, next) => {
+    const student = new Student({
+        first_name: req.body.first_name,
+        second_name: req.body.second_name,
+        date_of_birth: req.body.date_of_birth,
+        mobile: req.body.mobile,
+        email: req.body.email,
+        studentId: req.body.studentId
+    });
+    Student.updateOne({ _id: req.params.id }, student).then(
+        () => {
+            res.status(201).json({
+                message: 'Thing updated successfully!'
+            });
+        }
+    ).catch(
+        (error) => {
+            res.status(400).json({
+                error: error
+            });
+        }
+    );
+});
+
+//Deleting one student
+app.delete('/api/stuff/:id', (req, res, next) => {
+    Student.deleteOne({ _id: req.params.id }).then(
+        () => {
+            res.status(200).json({
+                message: 'Deleted!'
+            });
+        }
+    ).catch(
+        (error) => {
+            res.status(400).json({
+                error: error
+            });
+        }
+    );
+});
+
 module.exports = app;
